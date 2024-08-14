@@ -1,8 +1,8 @@
-import joi from "joi";
+const joi = require("joi");
 
 const signupSchema = joi.object({
-  fullName: joi.string().required(),
-  phoneNumber: joi.number().required(),
+  firstName: joi.string().required(),
+  lastName: joi.string().required(),
   email: joi.string().email().required(),
   password: joi.string().min(8).max(10).required(),
 });
@@ -15,19 +15,15 @@ function validateSignup(req, res, next) {
   req.body = value;
   next();
 }
-const accountEditSchema = joi.object({
-  fullName: joi.string(),
-  phoneNumber: joi.number(),
-  email: joi.string().email(),
-  password: joi.string().min(8).max(10),
+const loginSchema = joi.object({
+  email: joi.string().required(),
+  password: joi.string().required(),
 });
-function validateEditAccount(req, res, next) {
-  const { error, value } = accountEditSchema.validate(req.body);
+function validatelogin(req, res, next) {
+  const { error, value } = loginSchema.validate(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
-  req.body = value;
-  next();
 }
 
-export { validateSignup, validateEditAccount };
+module.exports = { validateSignup, validatelogin };
