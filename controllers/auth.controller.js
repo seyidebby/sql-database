@@ -9,6 +9,7 @@ async function newAccount(req, res) {
       },
     });
     if (alreadyHaveAnAccount) {
+      // console.log("already have an account")
       return res
         .status(400)
         .json({ message: "you already have an account, login instead" });
@@ -18,6 +19,7 @@ async function newAccount(req, res) {
     req.body.password = passwordHash;
 
     const createAccount = await User.create(req.body);
+    // console.log(createAccount)
     res
       .status(201)
       .json({ message: "account created successfully", new: createAccount });
