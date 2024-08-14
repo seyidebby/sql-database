@@ -29,7 +29,7 @@ const validateEditUser = require("./middlewares/validators/user.validator.js");
 const server = express();
 server.use(express.json());
 dotenv.config();
-port = process.env.PORT;
+const port = process.env.PORT;
 
 server.post("/signup", validateSignup, newAccount);
 server.post("/login", validatelogin, login);
