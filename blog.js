@@ -1,5 +1,7 @@
 const express = require("express");
 const db = require("./models/index.js");
+const dotenv = require("dotenv");
+const Sequelize = require("sequelize");
 const { newAccount, login } = require("./controllers/auth.controller.js");
 const {
   validateEditAccount,
@@ -26,6 +28,7 @@ const {
 const validateEditUser = require("./middlewares/validators/user.validator.js");
 const server = express();
 server.use(express.json());
+dotenv.config();
 port = process.env.PORT;
 
 server.post("/signup", validateSignup, newAccount);
@@ -41,11 +44,21 @@ server.get("/blog/:id", getBlog);
 server.patch("/blog/:id", validateblogedit, editBlog);
 server.delete("/blog/:id", deleteBlog);
 
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+  }
+);
 server.listen(port, async () => {
   console.log("sql server established");
   try {
-    await db.sequelize.authenticate();
-    console.log("Connection has been established successfully.");
+    await sequelize.authenticate().then(() => {
+      console.log("Connection has been established successfully.");
+    });
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }
