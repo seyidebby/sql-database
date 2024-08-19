@@ -1,5 +1,6 @@
 const { User } = require("../models/index.js");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 async function newAccount(req, res) {
   try {
@@ -36,9 +37,10 @@ async function login(req, res) {
       },
     });
     if (!alreadyHaveAnAccount) {
-      return res
-        .status(400)
-        .json({ message: "user does not exist. create an account" });
+      console.log("user does not exist");
+      // return res
+      //   .status(400)
+      //   .json({ message: "user does not exist. create an account" });
     }
     const comparePassword = bcrypt.compareSync(
       req.body.password,
@@ -51,13 +53,14 @@ async function login(req, res) {
         email: alreadyHaveAnAccount.email,
         fullName: alreadyHaveAnAccount.fullName,
       };
-
-      return res.status(200).json({
-        message: "login successful",
-        account: token,
-      });
+      console.log("login successful");
+      // return res.status(200).json({
+      //   message: "login successful",
+      //   account: token,
+      // });
     }
-    return res.status(400).json({ message: "credentials incorrect" });
+    // return res.status(400).json({ message: "credentials incorrect" });
+    console.log("credential incorrect");
   } catch (error) {
     console.log(error);
   }
