@@ -4,9 +4,6 @@ const bcrypt = require("bcryptjs");
 async function getAllUsers(req, res) {
   try {
     const allUsers = await User.findAll();
-
-    // console.log(allUsers.every((user) => user instanceof user)); // true
-    // console.log("All users:", JSON.stringify(allUsers, null, 2));
     res.status(200).json({ message: "all account gotten", account: allUsers });
   } catch (error) {
     console.log(error);
@@ -21,10 +18,12 @@ async function getUser(req, res) {
 
       attributes: ["id", "firstName", "lastName", "email"],
     });
-    if (getById) {
-      res.status(200).json({ message: "account gotten", account: getById });
+    if (!getById) {
+      res.status(400).json({ message: "user doesn't exist" });
     }
-    return res.status(400).json({ message: "user doesn't exist" });
+    return res
+      .status(200)
+      .json({ message: "account gotten", account: getById });
   } catch (error) {
     console.log(error);
   }
@@ -53,10 +52,10 @@ async function editUser(req, res) {
 async function deleteUser(req, res) {
   try {
     const deleteUser = await User.destroy({ where: { id: req.params.id } });
-    if (deleteUser) {
-      res.status(207).json({ message: "account deleted" });
+    if (!deleteUser) {
+      res.status(400).json({ message: "user doesn't exist" });
     }
-    return res.status(400).json({ message: "user doesn't exist" });
+    return res.status(207).json({ message: "account deleted" });
   } catch (error) {
     console.log(error);
   }

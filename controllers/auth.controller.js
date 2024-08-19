@@ -31,6 +31,7 @@ async function newAccount(req, res) {
 async function login(req, res) {
   try {
     const { email, password } = req.body;
+    console.log(req.body);
     const alreadyHaveAnAccount = await User.findOne({
       where: {
         email: req.body.email,
@@ -38,9 +39,9 @@ async function login(req, res) {
     });
     if (!alreadyHaveAnAccount) {
       console.log("user does not exist");
-      // return res
-      //   .status(400)
-      //   .json({ message: "user does not exist. create an account" });
+      return res
+        .status(400)
+        .json({ message: "user does not exist. create an account" });
     }
     const comparePassword = bcrypt.compareSync(
       req.body.password,
@@ -54,12 +55,12 @@ async function login(req, res) {
         fullName: alreadyHaveAnAccount.fullName,
       };
       console.log("login successful");
-      // return res.status(200).json({
-      //   message: "login successful",
-      //   account: token,
-      // });
+      return res.status(200).json({
+        message: "login successful",
+        account: token,
+      });
     }
-    // return res.status(400).json({ message: "credentials incorrect" });
+    return res.status(400).json({ message: "credentials incorrect" });
     console.log("credential incorrect");
   } catch (error) {
     console.log(error);

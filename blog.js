@@ -4,8 +4,8 @@ const dotenv = require("dotenv");
 const Sequelize = require("sequelize");
 const { newAccount, login } = require("./controllers/auth.controller.js");
 const {
-  validateEditAccount,
   validateSignup,
+  validatesignin,
   validatelogin,
 } = require("./middlewares/validators/auth.validator.js");
 const {

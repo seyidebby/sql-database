@@ -15,6 +15,19 @@ function validateSignup(req, res, next) {
   req.body = value;
   next();
 }
+const signinSchema = joi.object({
+  email: joi.string().required(),
+  password: joi.string().required(),
+});
+function validatesignin(req, res, next) {
+  const { error, value } = signinSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+  req.body = value;
+  next();
+}
+
 const loginSchema = joi.object({
   email: joi.string().required(),
   password: joi.string().required(),
@@ -24,6 +37,8 @@ function validatelogin(req, res, next) {
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
+  req.body = value;
+  next();
 }
 
-module.exports = { validateSignup, validatelogin };
+module.exports = { validateSignup, validatesignin, validatelogin };
