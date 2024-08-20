@@ -56,7 +56,8 @@ if (process.env.NODE_ENV === "development") {
   );
 } else {
   sequelize = new Sequelize(
-    "postgresql://sqldatabase_zhbu_user:repA5wBxDVGjsXWJj4wQYt2crbrXI1J3@dpg-cr1k1po8fa8c73a9ohpg-a.oregon-postgres.render.com/sqldatabase_zhbu"
+    "postgresql://sqldatabase_zhbu_user:repA5wBxDVGjsXWJj4wQYt2crbrXI1J3@dpg-cr1k1po8fa8c73a9ohpg-a.oregon-postgres.render.com/sqldatabase_zhbu",
+    { dialect: "postgres" }
   );
 }
 
