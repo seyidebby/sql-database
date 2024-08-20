@@ -43,15 +43,23 @@ server.get("/blog/:id", getBlog);
 server.patch("/blog/:id", validateblogedit, editBlog);
 server.delete("/blog/:id", deleteBlog);
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
-  }
-);
+let sequelize;
+if (process.env.NODE_ENV === "development") {
+  sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+      host: process.env.DB_HOST,
+      dialect: process.env.DB_DIALECT,
+    }
+  );
+} else {
+  sequelize = new Sequelize(
+    "postgresql://sqldatabase_zhbu_user:repA5wBxDVGjsXWJj4wQYt2crbrXI1J3@dpg-cr1k1po8fa8c73a9ohpg-a.oregon-postgres.render.com/sqldatabase_zhbu"
+  );
+}
+
 server.all("*", (req, res) => {
   res.status(400).send("route does not exist");
 });
