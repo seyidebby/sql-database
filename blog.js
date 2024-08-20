@@ -52,6 +52,9 @@ const sequelize = new Sequelize(
     dialect: process.env.DB_DIALECT,
   }
 );
+server.all("*", (req, res) => {
+  res.status(400).send("route does not exist");
+});
 server.listen(port, async () => {
   console.log("sql server established");
   try {
