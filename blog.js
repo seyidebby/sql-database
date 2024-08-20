@@ -5,7 +5,6 @@ const Sequelize = require("sequelize");
 const { newAccount, login } = require("./controllers/auth.controller.js");
 const {
   validateSignup,
-  validatesignin,
   validatelogin,
 } = require("./middlewares/validators/auth.validator.js");
 const {
@@ -29,7 +28,7 @@ const validateEditUser = require("./middlewares/validators/user.validator.js");
 const server = express();
 server.use(express.json());
 dotenv.config();
-const port = process.env.DB_PORT;
+const port = process.env.PORT;
 
 server.post("/signup", validateSignup, newAccount);
 server.post("/login", validatelogin, login);
