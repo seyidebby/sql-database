@@ -4,7 +4,8 @@
   "description": "sql practice mode",
   "main": "blog.js",
   "scripts": {
-    "start": "nodemon blog.js"
+    "start": "nodemon blog.js",
+    "prestart": "npx sequelize-cli db:migrate"
   },
   "author": "oluwaseyi",
   "license": "ISC",
